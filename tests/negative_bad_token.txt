@@ -1,0 +1,5 @@
+void test(int x) {
+  print(@);
+}
+
+test(3);

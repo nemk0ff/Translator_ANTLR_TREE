@@ -1,0 +1,10 @@
+int sum(int a, int b) {
+  print(a + b);
+  return a + b;
+}
+
+void show(int x) {
+  print(sum(x, 10));
+}
+
+show(5);
