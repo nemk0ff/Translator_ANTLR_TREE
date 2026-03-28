@@ -5,6 +5,7 @@
 
 #include "Ast.h"
 #include "AstBuilderVisitor.h"
+#include "Interpreter.h"
 #include "SyntaxErrorListener.h"
 #include "antlr4-runtime.h"
 #include "generated/MiniLangLexer.h"
@@ -45,7 +46,7 @@ int main(int argc, char **argv) {
   }
 
   std::cout << "=== PARSE TREE ===\n";
-  std::cout << tree->toStringTree(&parser) << "\n";
+  std::cout << tree->toStringTree(&parser) << "\n" << std::flush;
 
   // Поверх parse tree строим более компактный AST
   AstBuilderVisitor builder;
@@ -53,6 +54,13 @@ int main(int argc, char **argv) {
 
   std::cout << "\n=== AST ===\n";
   program->print(std::cout, 0);
+
+  std::cout << "\n=== OUTPUT ===\n" << std::flush;
+  Interpreter interpreter;
+  int exitCode = interpreter.execute(*program);
+  if (exitCode != 0) {
+    return exitCode;
+  }
 
   return 0;
 }

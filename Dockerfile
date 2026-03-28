@@ -31,4 +31,9 @@ RUN mkdir -p /opt/antlr \
 WORKDIR /app
 COPY . .
 
+# Собираем бинарник заранее, чтобы можно было запускать одиночные файлы через -v
+RUN make all ANTLR4_JAR=/opt/antlr/antlr-4.13.1-complete.jar \
+             RUNTIME_INCLUDE=/usr/local/include/antlr4-runtime \
+             RUNTIME_LIBDIR=/usr/local/lib
+
 CMD ["make", "test", "ANTLR4_JAR=/opt/antlr/antlr-4.13.1-complete.jar", "RUNTIME_INCLUDE=/usr/local/include/antlr4-runtime", "RUNTIME_LIBDIR=/usr/local/lib"]

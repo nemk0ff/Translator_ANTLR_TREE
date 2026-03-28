@@ -1,0 +1,12 @@
+int double_it(int x) {
+    return x + x;
+}
+
+void show(int n) {
+    int unused;
+    print(double_it(n));
+    print(double_it(n) - n);
+}
+
+show(6);
+show(10);

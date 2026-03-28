@@ -20,6 +20,7 @@ TARGET = $(BUILD_DIR)/minilang
 SRC_OBJS = \
 	$(BUILD_DIR)/Ast.o \
 	$(BUILD_DIR)/AstBuilderVisitor.o \
+	$(BUILD_DIR)/Interpreter.o \
 	$(BUILD_DIR)/main.o
 
 GEN_OBJS = \
@@ -49,6 +50,10 @@ $(BUILD_DIR)/AstBuilderVisitor.o: $(SRC_DIR)/AstBuilderVisitor.cpp $(SRC_DIR)/As
 	mkdir -p "$(BUILD_DIR)"
 	$(CXX) $(CXX_FLAGS) -c $(SRC_DIR)/AstBuilderVisitor.cpp -o $(BUILD_DIR)/AstBuilderVisitor.o
 
+$(BUILD_DIR)/Interpreter.o: $(SRC_DIR)/Interpreter.cpp $(SRC_DIR)/Interpreter.h $(SRC_DIR)/Ast.h
+	mkdir -p "$(BUILD_DIR)"
+	$(CXX) $(CXX_FLAGS) -c $(SRC_DIR)/Interpreter.cpp -o $(BUILD_DIR)/Interpreter.o
+
 $(BUILD_DIR)/main.o: $(SRC_DIR)/main.cpp $(SRC_DIR)/AstBuilderVisitor.h $(SRC_DIR)/SyntaxErrorListener.h
 	mkdir -p "$(BUILD_DIR)"
 	$(CXX) $(CXX_FLAGS) -c $(SRC_DIR)/main.cpp -o $(BUILD_DIR)/main.o
@@ -75,8 +80,12 @@ $(TARGET): src generate
 test: all
 	$(TARGET) $(TEST_DIR)/positive_basic.txt
 	$(TARGET) $(TEST_DIR)/positive_nested_calls.txt
+	$(TARGET) $(TEST_DIR)/positive_arithmetic.txt
+	$(TARGET) $(TEST_DIR)/positive_var_decl.txt
 	-$(TARGET) $(TEST_DIR)/negative_missing_semicolon.txt
 	-$(TARGET) $(TEST_DIR)/negative_bad_token.txt
+	-$(TARGET) $(TEST_DIR)/negative_undefined_function.txt
+	-$(TARGET) $(TEST_DIR)/negative_wrong_argc.txt
 
 docker-build:
 	docker build -t minilang-lab6 .

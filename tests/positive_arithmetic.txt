@@ -1,0 +1,10 @@
+int calc(int a, int b) {
+    return a + b - 1;
+}
+
+void run(int x) {
+    print(calc(x, 10));
+    print(x - 3 + 5);
+}
+
+run(7);

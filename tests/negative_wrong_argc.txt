@@ -1,0 +1,10 @@
+int add(int a, int b) {
+    return a + b;
+}
+
+void run(int x) {
+    /* передаём три аргумента вместо двух */
+    print(add(x, 1, 99));
+}
+
+run(5);
